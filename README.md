@@ -29,7 +29,7 @@ $ mvn install
 <%@taglib prefix="auth" uri="http://student.agh.edu.pl/~wojcicks/taglib/privileges"%>
 ```
 
-### Use tags as below
+### Use tag as below
 
 ```
 <auth:useRigths value="UPDATE">
@@ -84,4 +84,5 @@ public void handleAccessDenied(AccessDeniedException throwable,
       throw e;
     }
   }
+}
 ```
