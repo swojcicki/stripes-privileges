@@ -2,8 +2,8 @@ package pl.edu.agh.student.wojcicks.privileges.roles.tags;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import pl.edu.agh.student.wojcicks.privileges.roles.exceptions.UnknownRoleException;
 import pl.edu.agh.student.wojcicks.privileges.roles.processor.GrantedAuthorityProcessingStrategy;
 import pl.edu.agh.student.wojcicks.privileges.roles.processor.Processor;
@@ -25,7 +25,7 @@ public class PrivilegesTag extends TagSupport {
 
   private static Log log = LogFactory.getLog(PrivilegesTag.class);
 
-  private Enum value;
+  private String value;
 
   public int doStartTag() throws JspException {
     try {
@@ -46,9 +46,9 @@ public class PrivilegesTag extends TagSupport {
    * @throws UnknownRoleException if role can't be found
    */
   public boolean showTagBody() throws UnknownRoleException {
-    UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     ProcessorFactory processorFactory = new StringProcessorFactory();
-    Processor processor = processorFactory.getProcessor(value.toString(), user.getAuthorities(), new GrantedAuthorityProcessingStrategy());
+    Processor processor = processorFactory.getProcessor(this.getValue(), authentication.getAuthorities(), new GrantedAuthorityProcessingStrategy());
     return processor.doProcess();
   }
 
@@ -56,11 +56,11 @@ public class PrivilegesTag extends TagSupport {
     return EVAL_PAGE;
   }
 
-  public Enum getValue() {
+  public String getValue() {
     return value;
   }
 
-  public void setValue(Enum value) {
+  public void setValue(String value) {
     this.value = value;
   }
 }

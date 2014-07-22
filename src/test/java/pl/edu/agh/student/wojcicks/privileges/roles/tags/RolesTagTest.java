@@ -9,8 +9,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import pl.edu.agh.student.wojcicks.privileges.roles.Privileges;
 import pl.edu.agh.student.wojcicks.privileges.mocks.MockFactory;
+import pl.edu.agh.student.wojcicks.privileges.roles.Privileges;
 import pl.edu.agh.student.wojcicks.privileges.roles.exceptions.UnknownRoleException;
 
 import javax.servlet.jsp.JspException;
@@ -55,17 +55,15 @@ public class RolesTagTest {
   }
 
   @Test
-  @Ignore
   public void testShowTagBodySuccessful() throws UnknownRoleException, ClassNotFoundException {
-    rolesTag.setValue(Privileges.READ);
+    rolesTag.setValue(Privileges.READ.toString());
     boolean result = rolesTag.showTagBody();
     assertTrue(result);
   }
 
   @Test
-  @Ignore
   public void testShowTagBodyFailure() throws UnknownRoleException, ClassNotFoundException {
-    rolesTag.setValue(MockPrivileges.MOCK_PRIVILAGE);
+    rolesTag.setValue(MockPrivileges.MOCK_PRIVILAGE.toString());
     try {
       rolesTag.showTagBody();
       fail();
@@ -77,7 +75,7 @@ public class RolesTagTest {
   @Test
   @Ignore
   public void testDoStartTagSkipBody() throws JspException {
-    rolesTag.setValue(MockPrivileges.MOCK_PRIVILAGE);
+    rolesTag.setValue(MockPrivileges.MOCK_PRIVILAGE.toString());
     try {
       rolesTag.doStartTag();
       fail();
@@ -89,7 +87,7 @@ public class RolesTagTest {
   @Test
   @Ignore
   public void testDoStartTagShowBody() throws JspException {
-    rolesTag.setValue(Privileges.READ);
+    rolesTag.setValue(Privileges.READ.toString());
     int result = rolesTag.doStartTag();
     assertEquals(result, TagSupport.EVAL_PAGE);
   }

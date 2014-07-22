@@ -93,7 +93,7 @@ public class AnnotationProcessor extends BaseRoleProcessor {
       HandlesEvent handlesEvent;
       for (Method method : methods) {
         handlesEvent = method.getAnnotation(HandlesEvent.class);
-        if (handlesEvent.value().equals(eventName)) {
+        if (handlesEvent != null && handlesEvent.value().equals(eventName)) {
           return method;
         }
       }
